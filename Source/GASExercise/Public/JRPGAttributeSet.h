@@ -13,6 +13,8 @@
 		GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 		GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttributeChangedEvent, UAttributeSet*, AttributeSet, float, OldValue, float, NewValue);
+
 /**
  * Attribute set is mathematical and GameplayAbilitySystem-affiliated description of Creature.
  */
@@ -24,6 +26,28 @@ class GASEXERCISE_API UJRPGAttributeSet : public UAttributeSet
 public:
 	UJRPGAttributeSet();
 
+public:
+	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, Level);
+
+	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, HP);
+	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, MaxHP);
+
+	// Meta attribute set by attacking GameplayEffect. I decided to not question this approach until I finish tutorial
+	UPROPERTY(VisibleAnywhere)
+	FGameplayAttributeData Damage;
+	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, Damage);
+
+	UPROPERTY(BlueprintAssignable)
+	FAttributeChangedEvent OnHPChanged;
+
+
+protected:
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
+
+	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
+
+
 protected:
 	/* Creature Level */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -34,20 +58,20 @@ protected:
  * and only in very special circumstances not included in this exercise can be bigger than d12.
  */
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FGameplayAttributeData DexterityDice;
+ /*UPROPERTY(EditAnywhere, BlueprintReadOnly)
+ FGameplayAttributeData DexterityDice;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FGameplayAttributeData InsightDice;
+ UPROPERTY(EditAnywhere, BlueprintReadOnly)
+ FGameplayAttributeData InsightDice;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FGameplayAttributeData MightDice;
+ UPROPERTY(EditAnywhere, BlueprintReadOnly)
+ FGameplayAttributeData MightDice;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FGameplayAttributeData WillpowerDice;*/
+ UPROPERTY(EditAnywhere, BlueprintReadOnly)
+ FGameplayAttributeData WillpowerDice;*/
 
-	/* Health points. How much damage it takes to knoch off Creature */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+ /* Health points. How much damage it takes to knoch off Creature */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (HideFromModifiers))
 	FGameplayAttributeData HP;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -66,16 +90,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayAttributeData MaxEP;*/
-
-
-public:
-
-
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, Level);
-
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, HP);
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, MaxHP);
-
 
 
 

@@ -21,12 +21,6 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GAS", meta = (AllowPrivateAccess = "true"))
 	const UJRPGAttributeSet* AttributeSet = nullptr;
 
-
-	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UJRPGAbilityComponent* AbilitySystemComponent;
-
-	;*/
-
 public:
 	// Sets default values for this character's properties
 	AJRPGCharacter();
