@@ -13,10 +13,10 @@ struct FJRPGActionSignature
 	GENERATED_BODY()
 	
 	UPROPERTY(BlueprintReadWrite)
-	UJRPGAbilitySystemComponent* Self;
+	UJRPGAbilitySystemComponent* Self = nullptr;
 	
 	UPROPERTY(BlueprintReadOnly)
-	UGameplayAbility* Ability;
+	UGameplayAbility* Ability = nullptr;
 	
 	UPROPERTY(BlueprintReadOnly)
 	TArray<UJRPGAbilitySystemComponent*> Targets;
