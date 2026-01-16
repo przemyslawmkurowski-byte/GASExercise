@@ -6,6 +6,8 @@
 #include "Subsystems/WorldSubsystem.h"
 #include "CombatSubsystem.generated.h"
 
+class ICombatController;
+class UJRPGAbilitySystemComponent;
 /**
  * Experimental subsystem responsible for initializing combat - f.e. changing camera - and for control over turn order.
  */
@@ -16,7 +18,10 @@ class GASEXERCISE_API UCombatSubsystem : public UWorldSubsystem
 	
 public:
 	UFUNCTION(BlueprintCallable)
-	void StartCombat(TArray<AJRPGCharacter*> TeamA, TArray<AJRPGCharacter*> TeamB, APlayerController* PlayerController, APawn* CameraPawn);
+	void StartCombat(TArray<AJRPGCharacter*> TeamA, TArray<AJRPGCharacter*> TeamB, APlayerController* PlayerController, AActor* InEnemyController, APawn* CameraPawn);
+
+	UFUNCTION(BlueprintCallable)
+	void GetControllerFromComponent(TScriptInterface<ICombatController>& CombatController, UJRPGAbilitySystemComponent* Who);
 	
 	UFUNCTION(BlueprintCallable)
 	TArray<UJRPGAbilitySystemComponent*> GetAllPawnsPossibleForActivation();
@@ -36,9 +41,15 @@ private:
 	/* for now - enemies */
 	UPROPERTY()
 	TArray<AJRPGCharacter*> TeamB;
+
+	UPROPERTY()
+	TObjectPtr<AActor> EnemyController;
+
+	UPROPERTY()
+	TWeakObjectPtr<AActor> PlayerController;
 	
 	// we depend on old PlayerCharacter not being destroyed during combat.
 	UPROPERTY()
-	APawn* PreviousPlayerPawn;
+	TWeakObjectPtr<APawn> PreviousPlayerPawn;
 	
 };

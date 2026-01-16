@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "JRPGAbilitySystemComponent.h"
 #include "Abilities/Tasks/AbilityTask.h"
 #include "AbilityTask_JRPGTargetting.generated.h"
 
@@ -16,6 +17,33 @@ enum class ETargetType : uint8
 	ETT_SelfOrAlly,
 	ETT_Enemy,
 	ETT_Any
+};
+
+/*
+ * Struct used to pass Targetting Request params
+ */
+USTRUCT(BlueprintType)
+struct FTargetingParams
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(BlueprintReadWrite)
+	UJRPGAbilitySystemComponent* Source = nullptr;
+	
+	UPROPERTY(BlueprintReadWrite)
+	ETargetType PreferredTargets;
+	
+	UPROPERTY(BlueprintReadWrite)
+	ETargetType AllowedTargets;
+	
+	UPROPERTY(BlueprintReadWrite)
+	int MaxNumberOfTargets = 1;
+	
+	UPROPERTY(BlueprintReadWrite)
+	float CostPerTarget = 0;
+	
+	UPROPERTY(BlueprintReadWrite)
+	bool bCostScalesByNumberOfTargets = true;
 };
 
 
@@ -38,23 +66,20 @@ public:
 	UFUNCTION(BlueprintCallable, meta=(HidePin = "OwningAbility", DefaultToSelf = "OwningAbility", BlueprintInternalUseOnly = "true", HideSpawnParms="Instigator"), Category="Ability|Tasks")
 	static UAbilityTask_JRPGTargetting* JRPGWaitForTarget(UGameplayAbility* OwningAbility,
 		FName TaskInstanceName,
-		UJRPGAbilitySystemComponent* Source,
-		ETargetType PreferredTargets,
-		ETargetType AllowedTargets,
-		int MaxNumberOfTargets,
-		float CostPerTarget,
-		bool bCostScalesByNumberOfTargets);
+		const FTargetingParams& Params);
 	
 	virtual void Activate() override;
 	
 	virtual void OnDestroy(bool AbilityEnded) override;
 	
-private:
-	// callbacks
+	public:
+	// callbacks. No, I am not proud of myself. But at this stage I want the system up and running.
+	// Making it architecturally-acceptable is planned for second iteration
 	void OnTargetDataReadyCallback(TArray<UJRPGAbilitySystemComponent*> InTargets);
 	void OnTargetDataCancelledCallback();
 	
+private:
 	// member variables
 	UPROPERTY()
-	UJRPGAbilitySystemComponent* Source;
+	TWeakObjectPtr<UJRPGAbilitySystemComponent> Source;
 };

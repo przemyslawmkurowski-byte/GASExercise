@@ -1,13 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "CombatSubsystem.h"
 
 #include "JRPGAbilitySystemComponent.h"
 #include "JRPGCharacter.h"
 
 void UCombatSubsystem::StartCombat(TArray<AJRPGCharacter*> InTeamA, TArray<AJRPGCharacter*> InTeamB,
-                                   APlayerController* InPlayerController, APawn* InCameraPawn)
+                                   APlayerController* InPlayerController, AActor* InEnemyController, APawn* InCameraPawn)
 {
 	PreviousPlayerPawn = InPlayerController->GetPawnOrSpectator();
 	
@@ -21,6 +19,32 @@ void UCombatSubsystem::StartCombat(TArray<AJRPGCharacter*> InTeamA, TArray<AJRPG
 	 **/
 	InPlayerController->UnPossess();
 	InPlayerController->Possess(InCameraPawn);
+	PlayerController = InPlayerController;
+
+	EnemyController = InEnemyController;
+}
+
+void UCombatSubsystem::GetControllerFromComponent(TScriptInterface<ICombatController>& CombatController, UJRPGAbilitySystemComponent* Who)
+{
+	for (auto* Character : TeamA)
+	{
+		if (Character != nullptr && Character->GetAbilitySystemComponent() == Who)
+		{
+			CombatController.SetObject(PlayerController.Get());
+			return;
+		}
+	}
+	// else
+	for (auto* Character : TeamB)
+	{
+		if (Character != nullptr && Character->GetAbilitySystemComponent() == Who)
+		{
+			CombatController.SetObject(EnemyController.Get());
+			return;
+		}
+	}
+	//else
+	CombatController.SetObject(nullptr);
 }
 
 TArray<UJRPGAbilitySystemComponent*> UCombatSubsystem::GetAllPawnsPossibleForActivation()
