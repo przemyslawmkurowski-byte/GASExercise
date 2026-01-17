@@ -9,7 +9,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FJRPGTargettingDelegate, const TArray<UJRPGAbilitySystemComponent*>&, Targets);
 
-UENUM()
+UENUM(BlueprintType)
 enum class ETargetType : uint8
 {
 	ETT_Self,
@@ -31,10 +31,10 @@ struct FTargetingParams
 	UJRPGAbilitySystemComponent* Source = nullptr;
 	
 	UPROPERTY(BlueprintReadWrite)
-	ETargetType PreferredTargets;
+	ETargetType PreferredTargets = ETargetType::ETT_Enemy;
 	
 	UPROPERTY(BlueprintReadWrite)
-	ETargetType AllowedTargets;
+	ETargetType AllowedTargets = ETargetType::ETT_Any;
 	
 	UPROPERTY(BlueprintReadWrite)
 	int MaxNumberOfTargets = 1;
@@ -46,6 +46,17 @@ struct FTargetingParams
 	bool bCostScalesByNumberOfTargets = true;
 };
 
+USTRUCT(BlueprintType)
+struct FTargetingCallbackAddress
+{
+	GENERATED_BODY()
+	
+	FTargetingCallbackAddress() {}
+	
+	FTargetingCallbackAddress(UAbilityTask_JRPGTargetting* InAddress) : CallbackAddress(InAddress) {}
+	
+	TWeakObjectPtr<UAbilityTask_JRPGTargetting> CallbackAddress;
+};
 
 /**
  * Experimental Ability. It should contact CombatSubsystem, demand target for ability, and wait until it is provided
@@ -79,7 +90,11 @@ public:
 	void OnTargetDataCancelledCallback();
 	
 private:
-	// member variables
 	UPROPERTY()
-	TWeakObjectPtr<UJRPGAbilitySystemComponent> Source;
+	FTargetingParams Params;
+
+	// HACK! This one is returned when cancelling targetitng, because we have to return >something<
+	// TODO: replace it with specialized struct, that wil lhold array in itself.
+	UPROPERTY()
+	TArray<UJRPGAbilitySystemComponent*> EmptyArray;
 };
