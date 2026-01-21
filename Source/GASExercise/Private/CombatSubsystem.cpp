@@ -3,6 +3,7 @@
 
 #include "JRPGAbilitySystemComponent.h"
 #include "JRPGCharacter.h"
+#include "CombatController.h"
 
 void UCombatSubsystem::StartCombat(TArray<AJRPGCharacter*> InTeamA, TArray<AJRPGCharacter*> InTeamB,
                                    APlayerController* InPlayerController, AActor* InEnemyController, APawn* InCameraPawn)
@@ -22,6 +23,36 @@ void UCombatSubsystem::StartCombat(TArray<AJRPGCharacter*> InTeamA, TArray<AJRPG
 	PlayerController = InPlayerController;
 
 	EnemyController = InEnemyController;
+
+	// select first player and send them demand to Action
+	for(auto* Creature : TeamA)
+		Creature->OnRoundStarted();
+	for (auto* Creature : TeamB)
+		Creature->OnRoundStarted();
+
+	/* According to errata rules, old initiative roll was removed, now Player Party starts combat unless there is at least one Villain present */
+	bPlayerTurn = true;
+	ICombatController::Execute_StartTurn(PlayerController.Get());
+}
+
+
+void UCombatSubsystem::EndTurn()
+{
+	if (bPlayerTurn)
+	{
+		ICombatController::Execute_EndTurn(PlayerController.Get());
+	}
+	else
+	{
+		ICombatController::Execute_EndTurn(EnemyController.Get());
+	}
+
+
+	bPlayerTurn = !bPlayerTurn;
+	if(bPlayerTurn)
+		ICombatController::Execute_StartTurn(PlayerController.Get());
+	else
+		ICombatController::Execute_StartTurn(EnemyController.Get());
 }
 
 void UCombatSubsystem::GetControllerFromComponent(TScriptInterface<ICombatController>& CombatController, UJRPGAbilitySystemComponent* Who)

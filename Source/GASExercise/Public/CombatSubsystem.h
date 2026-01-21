@@ -21,6 +21,9 @@ public:
 	void StartCombat(TArray<AJRPGCharacter*> TeamA, TArray<AJRPGCharacter*> TeamB, APlayerController* PlayerController, AActor* InEnemyController, APawn* CameraPawn);
 
 	UFUNCTION(BlueprintCallable)
+	void EndTurn();
+
+	UFUNCTION(BlueprintCallable)
 	void GetControllerFromComponent(TScriptInterface<ICombatController>& CombatController, UJRPGAbilitySystemComponent* Who);
 	
 	UFUNCTION(BlueprintCallable)
@@ -47,9 +50,12 @@ private:
 
 	UPROPERTY()
 	TWeakObjectPtr<AActor> PlayerController;
+
+	// control params
+	bool bPlayerTurn;
 	
 	// we depend on old PlayerCharacter not being destroyed during combat.
 	UPROPERTY()
 	TWeakObjectPtr<APawn> PreviousPlayerPawn;
-	
+
 };

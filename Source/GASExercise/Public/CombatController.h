@@ -24,5 +24,12 @@ class GASEXERCISE_API ICombatController
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	UFUNCTION(BlueprintImplementableEvent)
+	void StartTurn();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void EndTurn();
+
+
+	UFUNCTION(BlueprintImplementableEvent)
 	void GetTargets(const FTargetingParams& InParams, FTargetingCallbackAddress InCallbackAddress);
 };

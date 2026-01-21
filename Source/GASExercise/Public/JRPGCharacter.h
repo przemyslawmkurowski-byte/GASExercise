@@ -38,4 +38,7 @@ public:
 
 	virtual UJRPGAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComp; }
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnRoundStarted();
+
 };

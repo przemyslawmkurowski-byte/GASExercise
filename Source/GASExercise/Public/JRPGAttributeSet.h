@@ -27,6 +27,9 @@ public:
 	UJRPGAttributeSet();
 
 public:
+	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, TurnsPerRound);
+	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, Turns);
+
 	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, Level);
 
 	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, HP);
@@ -40,6 +43,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FAttributeChangedEvent OnHPChanged;
 
+	UPROPERTY(BlueprintAssignable)
+	FAttributeChangedEvent OnTurnsChanged;
+
 
 protected:
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
@@ -49,6 +55,15 @@ protected:
 
 
 protected:
+	/* PCs and normal NPCs have one Turn each Round. Elite and Champion NPCs can have more. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayAttributeData TurnsPerRound;
+
+	/* PCs and normal NPCs have one Turn each Round. Elite and Champion NPCs can have more. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayAttributeData Turns;
+
+
 	/* Creature Level */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayAttributeData Level;
