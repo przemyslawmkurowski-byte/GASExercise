@@ -24,7 +24,6 @@ void UCombatSubsystem::StartCombat(TArray<AJRPGCharacter*> InTeamA, TArray<AJRPG
 
 	EnemyController = InEnemyController;
 
-	// select first player and send them demand to Action
 	for(auto* Creature : TeamA)
 		Creature->OnRoundStarted();
 	for (auto* Creature : TeamB)
