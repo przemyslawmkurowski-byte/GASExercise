@@ -13,5 +13,8 @@ UCLASS()
 class GASEXERCISE_API UJRPGAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
+
+public:
+	bool HasTurns();
 	
 };

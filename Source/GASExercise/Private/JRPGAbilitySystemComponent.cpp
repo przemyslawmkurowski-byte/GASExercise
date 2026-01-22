@@ -3,3 +3,10 @@
 
 #include "JRPGAbilitySystemComponent.h"
 
+#include "JRPGAttributeSet.h"
+
+bool UJRPGAbilitySystemComponent::HasTurns()
+{
+	auto Attributes = Cast<UJRPGAttributeSet>(GetAttributeSet(UJRPGAttributeSet::StaticClass()));
+	return Attributes->GetTurns() > 0;
+}

@@ -25,18 +25,25 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void GetControllerFromComponent(TScriptInterface<ICombatController>& CombatController, UJRPGAbilitySystemComponent* Who);
-	
+
 	UFUNCTION(BlueprintCallable)
-	TArray<UJRPGAbilitySystemComponent*> GetAllPawnsPossibleForActivation();
+	TArray<UJRPGAbilitySystemComponent*> GetCreaturesAvailableForActivation(TScriptInterface<ICombatController> OwningController);
 	
+	/* Candidate for library */
 	UFUNCTION(BlueprintCallable)
-	TArray<FGameplayAbilitySpec> GetAllAbilitiesFromPawn(UJRPGAbilitySystemComponent* Who);
+	static TArray<FGameplayAbilitySpec> GetAllAbilitiesFromPawn(UJRPGAbilitySystemComponent* Who);
 	
 	UFUNCTION(BlueprintCallable)
 	TArray<UJRPGAbilitySystemComponent*> GetAllAvailableTargets(UJRPGAbilitySystemComponent* Who);
 	
 	
 private:
+	void StartRound();
+
+	AActor* GetCurrentPlayer();
+	bool HasAnyCreatureAvailableForActivation(TScriptInterface<ICombatController> OwningController);
+
+
 	/* for now - player party */
 	UPROPERTY()
 	TArray<AJRPGCharacter*> TeamA;
