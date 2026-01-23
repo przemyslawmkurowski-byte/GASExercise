@@ -10,6 +10,11 @@ UJRPGAttributeSet::UJRPGAttributeSet()
 	InitHP(70);
 	InitMaxHP(70);
 	InitTurnsPerRound(1);
+
+	InitDexterityDice(8);
+	InitInsightDice(8);
+	InitMightDice(8);
+	InitWillpowerDice(8);
 }
 
 void UJRPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -29,6 +34,10 @@ void UJRPGAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
 	if (Attribute == GetHPAttribute())
 	{
 		OnHPChanged.Broadcast(this, OldValue, NewValue);
+		if (GetHP() <= 0)
+		{
+			OnHPReachedZero.Broadcast();
+		}
 	}
 	else if (Attribute == GetMaxHPAttribute())
 	{

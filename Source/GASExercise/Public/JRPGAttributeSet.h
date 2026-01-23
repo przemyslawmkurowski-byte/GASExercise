@@ -14,6 +14,7 @@
 		GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttributeChangedEvent, UAttributeSet*, AttributeSet, float, OldValue, float, NewValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FHPReachedZeroEvent);
 
 /**
  * Attribute set is mathematical and GameplayAbilitySystem-affiliated description of Creature.
@@ -27,10 +28,20 @@ public:
 	UJRPGAttributeSet();
 
 public:
+	/* Events */
+	UPROPERTY(BlueprintAssignable)
+	FHPReachedZeroEvent OnHPReachedZero;
+
+
 	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, TurnsPerRound);
 	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, Turns);
 
 	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, Level);
+
+	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, DexterityDice);
+	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, InsightDice);
+	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, MightDice);
+	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, WillpowerDice);
 
 	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, HP);
 	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, MaxHP);
@@ -67,23 +78,22 @@ protected:
 	/* Creature Level */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayAttributeData Level;
-
+	
 	/*
- * Core attributes are described as dice: d6, d8, d10 or d12. Current value of any dice can not be smaller than d6,
- * and only in very special circumstances not included in this exercise can be bigger than d12.
- */
+	* Core attributes are described as dice: d6, d8, d10 or d12. Current value of any dice can not be smaller than d6,
+	* and only in very special circumstances not included in this exercise can be bigger than d12.
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayAttributeData DexterityDice;
 
- /*UPROPERTY(EditAnywhere, BlueprintReadOnly)
- FGameplayAttributeData DexterityDice;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayAttributeData InsightDice;
 
- UPROPERTY(EditAnywhere, BlueprintReadOnly)
- FGameplayAttributeData InsightDice;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayAttributeData MightDice;
 
- UPROPERTY(EditAnywhere, BlueprintReadOnly)
- FGameplayAttributeData MightDice;
-
- UPROPERTY(EditAnywhere, BlueprintReadOnly)
- FGameplayAttributeData WillpowerDice;*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayAttributeData WillpowerDice;
 
  /* Health points. How much damage it takes to knoch off Creature */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (HideFromModifiers))
