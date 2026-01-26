@@ -79,7 +79,8 @@ public:
 	UFUNCTION(BlueprintCallable, meta=(HidePin = "OwningAbility", DefaultToSelf = "OwningAbility", BlueprintInternalUseOnly = "true", HideSpawnParms="Instigator"), Category="Ability|Tasks")
 	static UAbilityTask_FabulaTargetting* FabulaWaitForTarget(UGameplayAbility* OwningAbility,
 		FName TaskInstanceName,
-		const FTargetingParams& Params);
+		const FTargetingParams& Params,
+		bool InAllowTargettingDeadCreatures);
 	
 	virtual void Activate() override;
 	
@@ -94,6 +95,8 @@ public:
 private:
 	UPROPERTY()
 	FTargetingParams Params;
+
+	bool bAllowTargettingDeadCreatures;
 
 	// HACK! This one is returned when cancelling targetitng, because we have to return >something<
 	// TODO: replace it with specialized struct, that wil lhold array in itself.

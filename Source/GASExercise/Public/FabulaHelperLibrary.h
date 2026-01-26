@@ -22,10 +22,11 @@ class GASEXERCISE_API UFabulaHelperLibrary : public UBlueprintFunctionLibrary
 public:
 	/* Check is ttrpg term. Strange way of returning result is because of how it looks blueprint-side */
 	UFUNCTION(BlueprintCallable)
-	static void BasicCheck(UAbilitySystemComponent* Creature, FGameplayAttribute InAttribute0, FGameplayAttribute InAttribute1, int InDifficulty,
+	static void BasicCheck(UAbilitySystemComponent* InCreature, FGameplayAttribute InAttribute0, FGameplayAttribute InAttribute1, int InDifficulty,
 		bool& Success, int& HighRoll, bool& IsCritical);
 
 	UFUNCTION(BlueprintCallable)
-	static TArray<UFabulaAbilitySystemComponent*> GetAvailableTargets(UFabulaCombatSubsystem* Context, UFabulaAbilitySystemComponent* Caller, ETargetType TargetType);
+	static TArray<UFabulaAbilitySystemComponent*> GetAvailableTargets(UFabulaCombatSubsystem* InContext, UFabulaAbilitySystemComponent* InCaller,
+		ETargetType InTargetType, bool InAllowTargettingDeadCreatures);
 	
 };

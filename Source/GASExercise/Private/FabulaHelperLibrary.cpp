@@ -43,42 +43,61 @@ void UFabulaHelperLibrary::BasicCheck(UAbilitySystemComponent* Creature,
 	}
 }
 
-TArray<UFabulaAbilitySystemComponent*> UFabulaHelperLibrary::GetAvailableTargets(UFabulaCombatSubsystem* Context, UFabulaAbilitySystemComponent* Caller, ETargetType TargetType)
+TArray<UFabulaAbilitySystemComponent*> UFabulaHelperLibrary::GetAvailableTargets(UFabulaCombatSubsystem* InContext,
+	UFabulaAbilitySystemComponent* InCaller,
+	ETargetType InTargetType,
+	bool InAllowTargettingDeadCreatures)
 {
-	switch (TargetType)
+	TArray<UFabulaAbilitySystemComponent*> Ret; 
+	switch (InTargetType)
 	{
 		case ETargetType::ETT_Self:
 		{
-			return TArray<UFabulaAbilitySystemComponent*>({ Caller });
+			Ret.Add(InCaller);
+			break;
 		}
 		case ETargetType::ETT_Ally:
 		{
-			AFabulaParty* Party = Caller->GetParty();
-			TArray<UFabulaAbilitySystemComponent*> SelfParty = Party->GetAllCreatures();
-			SelfParty.Remove(Caller);
-			return SelfParty;
+			AFabulaParty* Party = InCaller->GetParty();
+			Ret = Party->GetAllCreatures();
+			Ret.Remove(InCaller);
+			break;
 		}
 		case ETargetType::ETT_SelfOrAlly:
 		{
-			AFabulaParty* Party = Caller->GetParty();
-			TArray<UFabulaAbilitySystemComponent*> SelfParty = Party->GetAllCreatures();
-			return SelfParty;
+			AFabulaParty* Party = InCaller->GetParty();
+			Ret = Party->GetAllCreatures();
+			break;
 		}
 		case ETargetType::ETT_Enemy:
 		{
-			AFabulaParty* Party = Context->GetOpposingParty(Caller);
-			TArray<UFabulaAbilitySystemComponent*> OpposingParty = Party->GetAllCreatures();
-			return OpposingParty;
+			AFabulaParty* Party = InContext->GetOpposingParty(InCaller);
+			Ret = Party->GetAllCreatures();
+			break;
 		}
 		case ETargetType::ETT_Any:
 		default:
 		{
-			AFabulaParty* OpposingParty = Context->GetOpposingParty(Caller);
-			TArray<UFabulaAbilitySystemComponent*> Ret = OpposingParty->GetAllCreatures();
-			AFabulaParty* Party = Caller->GetParty();
+			AFabulaParty* OpposingParty = InContext->GetOpposingParty(InCaller);
+			Ret = OpposingParty->GetAllCreatures();
+			AFabulaParty* Party = InCaller->GetParty();
 			TArray<UFabulaAbilitySystemComponent*> Allies = Party->GetAllCreatures();
 			Ret.Append(Allies);
-			return Ret;
+			break;
 		}
 	}
+
+	if (!InAllowTargettingDeadCreatures)
+	{
+		for (int i = Ret.Num() - 1; i >= 0; --i)
+		{
+			if (Ret[i]->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Fabula.Status.Dead"))))
+			{
+				// Note we cannot use RemoveAtSwap, because order matter.
+				Ret.RemoveAt(i);
+			}
+		}
+	}
+
+	return Ret;
 }

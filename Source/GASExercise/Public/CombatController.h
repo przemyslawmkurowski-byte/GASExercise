@@ -31,5 +31,5 @@ public:
 
 
 	UFUNCTION(BlueprintImplementableEvent, meta=(DeprecationMessage="Use FabulaHelperLibrary::GetAvailableTargets instead"))
-	void GetTargets(const FTargetingParams& InParams, FTargetingCallbackAddress InCallbackAddress);
+	void SelectTargets(const FTargetingParams& InParams, FTargetingCallbackAddress InCallbackAddress);
 };

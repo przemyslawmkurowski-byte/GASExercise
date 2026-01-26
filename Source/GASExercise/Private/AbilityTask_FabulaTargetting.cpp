@@ -8,10 +8,12 @@
 
 UAbilityTask_FabulaTargetting* UAbilityTask_FabulaTargetting::FabulaWaitForTarget(UGameplayAbility* OwningAbility,
 	FName TaskInstanceName,
-	const FTargetingParams& InParams)
+	const FTargetingParams& InParams,
+	bool InAllowTargettingDeadCreatures)
 {
 	UAbilityTask_FabulaTargetting* MyObj = NewAbilityTask<UAbilityTask_FabulaTargetting>(OwningAbility, TaskInstanceName);
 	MyObj->Params = InParams;
+	MyObj->bAllowTargettingDeadCreatures = InAllowTargettingDeadCreatures;
 	return MyObj;
 }
 
@@ -19,7 +21,7 @@ void UAbilityTask_FabulaTargetting::Activate()
 {
 	// TODO: actually implement communication with CombatSystem, demand targetting etc
 	UFabulaCombatSubsystem* CombatSystem = GetWorld()->GetSubsystem<UFabulaCombatSubsystem>();
-	TArray<UFabulaAbilitySystemComponent*> Targets = UFabulaHelperLibrary::GetAvailableTargets(CombatSystem, Params.Source, Params.AllowedTargets);
+	TArray<UFabulaAbilitySystemComponent*> Targets = UFabulaHelperLibrary::GetAvailableTargets(CombatSystem, Params.Source, Params.AllowedTargets, bAllowTargettingDeadCreatures);
 
 	// CombatSystem->GetAllAvailableTargets(Params.Source);
 	TScriptInterface<ICombatController> SourceController = nullptr;
@@ -31,7 +33,7 @@ void UAbilityTask_FabulaTargetting::Activate()
 		return;
 	}
 
-	ICombatController::Execute_GetTargets(SourceController.GetObject(), Params, FTargetingCallbackAddress(this));
+	ICombatController::Execute_SelectTargets(SourceController.GetObject(), Params, FTargetingCallbackAddress(this));
 
 	//SourceController->GetTargets();
 
