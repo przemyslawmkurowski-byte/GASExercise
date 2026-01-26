@@ -5,6 +5,21 @@
 
 #include "FabulaAttributeSet.h"
 
+void UFabulaAbilitySystemComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (InitData == nullptr)
+	{
+		UE_LOG(LogTemp, Error, L"Init data not set");
+		return;
+	}
+
+	// Oh, screw it.
+	auto EffectContext = MakeEffectContext();
+	BP_ApplyGameplayEffectToSelf(InitData, 1, EffectContext);
+}
+
 bool UFabulaAbilitySystemComponent::HasTurns()
 {
 	auto Attributes = Cast<UFabulaAttributeSet>(GetAttributeSet(UFabulaAttributeSet::StaticClass()));

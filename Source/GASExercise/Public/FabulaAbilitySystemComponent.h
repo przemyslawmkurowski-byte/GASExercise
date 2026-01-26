@@ -19,6 +19,8 @@ class GASEXERCISE_API UFabulaAbilitySystemComponent : public UAbilitySystemCompo
 	GENERATED_BODY()
 
 public:
+	virtual void BeginPlay() override;
+
 	void SetParty(AFabulaParty* InParty);
 
 	bool HasTurns();
@@ -29,6 +31,10 @@ public:
 
 
 private:
+	/* Because basic params are GameplayEffect in GAS, it seems */
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UGameplayEffect> InitData;
+
 	/* Will be automatially set by FabulaParty */
 	UPROPERTY(VisibleAnywhere)
 	AFabulaParty* Party;

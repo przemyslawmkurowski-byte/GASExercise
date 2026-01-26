@@ -10,37 +10,26 @@
 #include "FabulaCombatSubsystem.h"
 #include "FabulaParty.h"
 
-void UFabulaHelperLibrary::BasicCheck(UAbilitySystemComponent* Creature,
-	FGameplayAttribute InAttribute0, FGameplayAttribute InAttribute1, int InDifficulty,
-	bool& Success, int& HighRoll, bool& IsCritical)
+void UFabulaHelperLibrary::BasicRoll(UAbilitySystemComponent* InCreature, FGameplayAttribute InAttribute0, FGameplayAttribute InAttribute1,
+	int InModifier, int& OutResult, int& OutHighRoll, ERollSpecialResult& OutSpecialResult)
 {
 	bool fake;
 
-	int Attr0 = Creature->GetGameplayAttributeValue(InAttribute0, fake);
-	int Attr1 = Creature->GetGameplayAttributeValue(InAttribute1, fake);
+	const int Attr0 = InCreature->GetGameplayAttributeValue(InAttribute0, fake);
+	const int Attr1 = InCreature->GetGameplayAttributeValue(InAttribute1, fake);
 
-	int Roll0 = FMath::RandRange(1, Attr0);
-	int Roll1 = FMath::RandRange(1, Attr1);
+	const int Roll0 = FMath::RandRange(1, Attr0);
+	const int Roll1 = FMath::RandRange(1, Attr1);
 
-	HighRoll = Roll0 > Roll1 ? Roll0 : Roll1;
+	OutHighRoll = Roll0 > Roll1 ? Roll0 : Roll1;
+	OutResult = Roll0 + Roll1 + InModifier;
 
-	// Critical success is when both dices give the same value higher than 5 (so 6 and 6, 7 and 7, 8 and 8 etc). Critical failure is when both dices give 1
 	if (Roll0 == Roll1 && Roll0 == 1)
-	{
-		IsCritical = true;
-		Success =  false;
-	}
-	else if (Roll0 == Roll1 && Roll0 > 5)
-	{
-		// critical success is a success even if rolls do not sum to InDifficulty
-		IsCritical = true;
-		Success =  true;
-	}
+		OutSpecialResult = ERollSpecialResult::Fumble;
+	else if (Roll0 == Roll1 && Roll0 > 5) // sic! critical success happens only on dublets of 6, 7, 8 etc
+		OutSpecialResult = ERollSpecialResult::CriticalSuccess;
 	else
-	{
-		IsCritical = false;
-		Success = Roll0 + Roll1 >= InDifficulty;
-	}
+		OutSpecialResult = ERollSpecialResult::None;
 }
 
 TArray<UFabulaAbilitySystemComponent*> UFabulaHelperLibrary::GetAvailableTargets(UFabulaCombatSubsystem* InContext,
