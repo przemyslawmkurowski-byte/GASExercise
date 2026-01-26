@@ -39,6 +39,7 @@ void UFabulaCombatSubsystem::StartRound()
 		Creature->OnRoundStarted.Broadcast();
 	for (auto Creature : Party1->GetAllCreatures())
 		Creature->OnRoundStarted.Broadcast();
+	bPlayerTurn = true;
 	ICombatController::Execute_StartTurn(PlayerController);
 }
 
