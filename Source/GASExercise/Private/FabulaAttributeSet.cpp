@@ -15,6 +15,9 @@ UFabulaAttributeSet::UFabulaAttributeSet()
 	InitInsightDice(8);
 	InitMightDice(8);
 	InitWillpowerDice(8);
+
+	InitDamageReduction(0);
+	InitPrimaryWeaponDamage(8);
 }
 
 void UFabulaAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)

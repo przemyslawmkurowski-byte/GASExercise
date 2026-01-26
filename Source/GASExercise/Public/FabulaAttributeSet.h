@@ -46,6 +46,10 @@ public:
 	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, HP);
 	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, MaxHP);
 
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, DamageReduction);
+
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, PrimaryWeaponDamage);
+
 	// Meta attribute set by attacking GameplayEffect. I decided to not question this approach until I finish tutorial
 	UPROPERTY(VisibleAnywhere)
 	FGameplayAttributeData Damage;
@@ -95,12 +99,20 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayAttributeData WillpowerDice;
 
- /* Health points. How much damage it takes to knoch off Creature */
+	/* Health points. How much damage it takes to knoch off Creature */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (HideFromModifiers))
 	FGameplayAttributeData HP;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayAttributeData MaxHP;
+
+	/* Flat value taken from Damage before Affinities are calculated. Affinities are Tags. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayAttributeData DamageReduction;
+
+	/* In Fabula Ultima, damage dealt is High Roll + flat value coming from weapon */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayAttributeData PrimaryWeaponDamage;
 
 	/* Magic points. Used to cast spells and use some paramagic abilities. /
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
