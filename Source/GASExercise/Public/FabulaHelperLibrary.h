@@ -5,14 +5,17 @@
 #include <AttributeSet.h>
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "JRPGHelperLibrary.generated.h"
+#include "FabulaHelperLibrary.generated.h"
 
+class AFabulaCharacter;
+class UFabulaAbilitySystemComponent;
+class UFabulaCombatSubsystem;
 
 /**
  * General-purpose library for different functions needed to coordinate with GAS 
  */
 UCLASS()
-class GASEXERCISE_API UJRPGHelperLibrary : public UBlueprintFunctionLibrary
+class GASEXERCISE_API UFabulaHelperLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
@@ -21,5 +24,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	static void BasicCheck(UAbilitySystemComponent* Creature, FGameplayAttribute InAttribute0, FGameplayAttribute InAttribute1, int InDifficulty,
 		bool& Success, int& HighRoll, bool& IsCritical);
+
+	UFUNCTION(BlueprintCallable)
+	static TArray<UFabulaAbilitySystemComponent*> GetAvailableTargets(UFabulaCombatSubsystem* Context, UFabulaAbilitySystemComponent* Caller, ETargetType TargetType);
 	
 };

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "JRPGCharacter.h"
+#include "FabulaCharacter.h"
 #include "Logging/LogMacros.h"
 #include "GASExerciseCharacter.generated.h"
 
@@ -16,7 +16,7 @@ struct FInputActionValue;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class AGASExerciseCharacter : public AJRPGCharacter
+class AGASExerciseCharacter : public AFabulaCharacter
 {
 	GENERATED_BODY()
 

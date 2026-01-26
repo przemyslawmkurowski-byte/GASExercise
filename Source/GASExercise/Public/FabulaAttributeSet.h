@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
 #include "AbilitySystemComponent.h"
-#include "JRPGAttributeSet.generated.h"
+#include "FabulaAttributeSet.generated.h"
 
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
 		GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
@@ -20,12 +20,12 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FHPReachedZeroEvent);
  * Attribute set is mathematical and GameplayAbilitySystem-affiliated description of Creature.
  */
 UCLASS()
-class GASEXERCISE_API UJRPGAttributeSet : public UAttributeSet
+class GASEXERCISE_API UFabulaAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	UJRPGAttributeSet();
+	UFabulaAttributeSet();
 
 public:
 	/* Events */
@@ -33,23 +33,23 @@ public:
 	FHPReachedZeroEvent OnHPReachedZero;
 
 
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, TurnsPerRound);
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, Turns);
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, TurnsPerRound);
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, Turns);
 
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, Level);
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, Level);
 
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, DexterityDice);
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, InsightDice);
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, MightDice);
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, WillpowerDice);
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, DexterityDice);
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, InsightDice);
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, MightDice);
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, WillpowerDice);
 
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, HP);
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, MaxHP);
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, HP);
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, MaxHP);
 
 	// Meta attribute set by attacking GameplayEffect. I decided to not question this approach until I finish tutorial
 	UPROPERTY(VisibleAnywhere)
 	FGameplayAttributeData Damage;
-	ATTRIBUTE_ACCESSORS(UJRPGAttributeSet, Damage);
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, Damage);
 
 	UPROPERTY(BlueprintAssignable)
 	FAttributeChangedEvent OnHPChanged;

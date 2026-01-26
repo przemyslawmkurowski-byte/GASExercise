@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "JRPGAttributeSet.h"
+#include "FabulaAttributeSet.h"
 
 #include "GameplayEffectExtension.h"
 
-UJRPGAttributeSet::UJRPGAttributeSet()
+UFabulaAttributeSet::UFabulaAttributeSet()
 {
 	InitLevel(5);
 	InitHP(70);
@@ -17,7 +17,7 @@ UJRPGAttributeSet::UJRPGAttributeSet()
 	InitWillpowerDice(8);
 }
 
-void UJRPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+void UFabulaAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	if (Attribute == GetHPAttribute())
 	{
@@ -27,7 +27,7 @@ void UJRPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 	Super::PreAttributeChange(Attribute, NewValue);
 }
 
-void UJRPGAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
+void UFabulaAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
 {
 	Super::PostAttributeChange(Attribute, OldValue, NewValue);
 
@@ -49,7 +49,7 @@ void UJRPGAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
 	}
 }
 
-void UJRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
+void UFabulaAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
 	if (Data.EvaluatedData.Attribute == GetDamageAttribute())

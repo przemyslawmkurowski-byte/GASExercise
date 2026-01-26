@@ -15,7 +15,7 @@ class UCombatController : public UInterface
 
 /**
  * Experimental class. This 'Controller' represent player when interacting with CombatSystem. Note, against its name, it
- * is NOT AController, through it fills similar role in JRPG framework that AController in Unreal framework.
+ * is NOT AController, through it fills similar role in Fabula framework that AController in Unreal framework.
  */
 class GASEXERCISE_API ICombatController
 {
@@ -30,6 +30,6 @@ public:
 	void EndTurn();
 
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, meta=(DeprecationMessage="Use FabulaHelperLibrary::GetAvailableTargets instead"))
 	void GetTargets(const FTargetingParams& InParams, FTargetingCallbackAddress InCallbackAddress);
 };

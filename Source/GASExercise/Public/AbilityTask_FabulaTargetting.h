@@ -3,11 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "JRPGAbilitySystemComponent.h"
+#include "FabulaAbilitySystemComponent.h"
 #include "Abilities/Tasks/AbilityTask.h"
-#include "AbilityTask_JRPGTargetting.generated.h"
+#include "AbilityTask_FabulaTargetting.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FJRPGTargettingDelegate, const TArray<UJRPGAbilitySystemComponent*>&, Targets);
+class AFabulaCharacter;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFabulaTargettingDelegate, const TArray<UFabulaAbilitySystemComponent*>&, Targets);
 
 UENUM(BlueprintType)
 enum class ETargetType : uint8
@@ -28,7 +30,7 @@ struct FTargetingParams
 	GENERATED_BODY()
 	
 	UPROPERTY(BlueprintReadWrite)
-	UJRPGAbilitySystemComponent* Source = nullptr;
+	UFabulaAbilitySystemComponent* Source = nullptr;
 	
 	UPROPERTY(BlueprintReadWrite)
 	ETargetType PreferredTargets = ETargetType::ETT_Enemy;
@@ -53,29 +55,29 @@ struct FTargetingCallbackAddress
 	
 	FTargetingCallbackAddress() {}
 	
-	FTargetingCallbackAddress(UAbilityTask_JRPGTargetting* InAddress) : CallbackAddress(InAddress) {}
+	FTargetingCallbackAddress(UAbilityTask_FabulaTargetting* InAddress) : CallbackAddress(InAddress) {}
 	
-	TWeakObjectPtr<UAbilityTask_JRPGTargetting> CallbackAddress;
+	TWeakObjectPtr<UAbilityTask_FabulaTargetting> CallbackAddress;
 };
 
 /**
  * Experimental Ability. It should contact CombatSubsystem, demand target for ability, and wait until it is provided
  */
 UCLASS()
-class GASEXERCISE_API UAbilityTask_JRPGTargetting : public UAbilityTask
+class GASEXERCISE_API UAbilityTask_FabulaTargetting : public UAbilityTask
 {
 	GENERATED_BODY()
 	
 public:
 	UPROPERTY(BlueprintAssignable)
-	FJRPGTargettingDelegate Accepted;
+	FFabulaTargettingDelegate Accepted;
 	
 	UPROPERTY(BlueprintAssignable)
-	FJRPGTargettingDelegate Cancelled;
+	FFabulaTargettingDelegate Cancelled;
 	
 	/** Spawns target actor and waits for it to return valid data or to be canceled. */
 	UFUNCTION(BlueprintCallable, meta=(HidePin = "OwningAbility", DefaultToSelf = "OwningAbility", BlueprintInternalUseOnly = "true", HideSpawnParms="Instigator"), Category="Ability|Tasks")
-	static UAbilityTask_JRPGTargetting* JRPGWaitForTarget(UGameplayAbility* OwningAbility,
+	static UAbilityTask_FabulaTargetting* FabulaWaitForTarget(UGameplayAbility* OwningAbility,
 		FName TaskInstanceName,
 		const FTargetingParams& Params);
 	
@@ -86,7 +88,7 @@ public:
 	public:
 	// callbacks. No, I am not proud of myself. But at this stage I want the system up and running.
 	// Making it architecturally-acceptable is planned for second iteration
-	void OnTargetDataReadyCallback(TArray<UJRPGAbilitySystemComponent*> InTargets);
+	void OnTargetDataReadyCallback(TArray<UFabulaAbilitySystemComponent*> InTargets);
 	void OnTargetDataCancelledCallback();
 	
 private:
@@ -96,5 +98,5 @@ private:
 	// HACK! This one is returned when cancelling targetitng, because we have to return >something<
 	// TODO: replace it with specialized struct, that wil lhold array in itself.
 	UPROPERTY()
-	TArray<UJRPGAbilitySystemComponent*> EmptyArray;
+	TArray<UFabulaAbilitySystemComponent*> EmptyArray;
 };

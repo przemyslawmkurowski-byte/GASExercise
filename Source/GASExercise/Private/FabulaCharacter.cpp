@@ -1,37 +1,37 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "JRPGCharacter.h"
+#include "FabulaCharacter.h"
+#include "FabulaParty.h"
 
 // Sets default values
-AJRPGCharacter::AJRPGCharacter()
+AFabulaCharacter::AFabulaCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	AbilitySystemComp = CreateDefaultSubobject<UJRPGAbilitySystemComponent>(TEXT("AbilitySystem"));
-	AttributeSet = CreateDefaultSubobject<UJRPGAttributeSet>(TEXT("AttributeSet"));
+	AbilitySystemComp = CreateDefaultSubobject<UFabulaAbilitySystemComponent>(TEXT("AbilitySystem"));
+	AttributeSet = CreateDefaultSubobject<UFabulaAttributeSet>(TEXT("AttributeSet"));
 
 }
 
 // Called when the game starts or when spawned
-void AJRPGCharacter::BeginPlay()
+void AFabulaCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void AJRPGCharacter::Tick(float DeltaTime)
+void AFabulaCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
 // Called to bind functionality to input
-void AJRPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AFabulaCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
-

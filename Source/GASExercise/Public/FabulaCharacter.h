@@ -5,25 +5,32 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
-#include "JRPGAbilitySystemComponent.h"
-#include "JRPGAttributeSet.h"
-#include "JRPGCharacter.generated.h"
+#include "FabulaAbilitySystemComponent.h"
+#include "FabulaAttributeSet.h"
+#include "FabulaCharacter.generated.h"
+
+class AFabulaParty;
+
+/*
+* Simple Character that compose UFabulaAbilitySystemComponent and UFabulaAttributeSet.
+* Note this class is not cooperating with whole Fabula system (this is UFabulaAbilitySystemComponent responsibility).
+*/
 
 UCLASS()
-class GASEXERCISE_API AJRPGCharacter : public ACharacter, public IAbilitySystemInterface
+class GASEXERCISE_API AFabulaCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
-	UJRPGAbilitySystemComponent* AbilitySystemComp;
+	UFabulaAbilitySystemComponent* AbilitySystemComp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GAS", meta = (AllowPrivateAccess = "true"))
-	const UJRPGAttributeSet* AttributeSet = nullptr;
+	const UFabulaAttributeSet* AttributeSet = nullptr;
 
 public:
 	// Sets default values for this character's properties
-	AJRPGCharacter();
+	AFabulaCharacter();
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,9 +43,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	virtual UJRPGAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComp; }
+	virtual UFabulaAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComp; }
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnRoundStarted();
-
 };
