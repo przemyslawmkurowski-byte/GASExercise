@@ -24,6 +24,8 @@ public:
 	void SetParty(AFabulaParty* InParty);
 
 	bool HasTurns();
+
+	UFUNCTION(BlueprintPure)
 	AFabulaParty* GetParty();
 
 	UPROPERTY(BlueprintAssignable)

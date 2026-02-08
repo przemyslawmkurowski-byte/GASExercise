@@ -6,6 +6,7 @@
 #include "Subsystems/WorldSubsystem.h"
 #include "FabulaCombatSubsystem.generated.h"
 
+class AFabulaCombatArea;
 class ICombatController;
 class UFabulaAbilitySystemComponent;
 /**
@@ -18,7 +19,7 @@ class GASEXERCISE_API UFabulaCombatSubsystem : public UWorldSubsystem
 	
 public:
 	UFUNCTION(BlueprintCallable)
-	void StartCombat(AFabulaParty* InParty0, AFabulaParty* InParty1, APlayerController* PlayerController, AActor* InEnemyController, APawn* CameraPawn);
+	void StartCombat(AFabulaCombatArea* InArea, AFabulaParty* InParty0, AFabulaParty* InParty1, APlayerController* PlayerController, AActor* InEnemyController, APawn* CameraPawn);
 
 	UFUNCTION(BlueprintCallable)
 	void EndTurn();
@@ -44,6 +45,8 @@ private:
 
 	AActor* GetCurrentPlayer();
 	bool HasAnyCreatureAvailableForActivation(TScriptInterface<ICombatController> OwningController);
+
+	void PositionCreatures(AFabulaParty* InParty, TArray<USceneComponent*> InPositions);
 
 
 	/* for now - player party */

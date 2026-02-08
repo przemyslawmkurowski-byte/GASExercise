@@ -4,12 +4,20 @@
 
 #include "FabulaAbilitySystemComponent.h"
 #include "FabulaCharacter.h"
+#include "FabulaCombatArea.h"
 #include "FabulaParty.h"
 #include "CombatController.h"
 
-void UFabulaCombatSubsystem::StartCombat(AFabulaParty* InParty0, AFabulaParty* InParty1,
+void UFabulaCombatSubsystem::StartCombat(AFabulaCombatArea* InArea, AFabulaParty* InParty0, AFabulaParty* InParty1,
                                    APlayerController* InPlayerController, AActor* InEnemyController, APawn* InCameraPawn)
 {
+	if (InParty0 == nullptr || InParty1 == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Cannot initialize Combat, at least one Party is null"));
+		return;
+	}
+
+
 	PreviousPlayerPawn = InPlayerController->GetPawnOrSpectator();
 	
 	Party0 = InParty0;
@@ -18,6 +26,12 @@ void UFabulaCombatSubsystem::StartCombat(AFabulaParty* InParty0, AFabulaParty* I
 	PlayerController = InPlayerController;
 
 	EnemyController = InEnemyController;
+
+	/* 
+	* temporary solution : Pawns are hard-on teleported to their expected position. Proper way would be to make this logic latent, and handle editor-side
+	*/ 
+	PositionCreatures(Party0, InArea->GetCombatPositionsForParty0());
+	PositionCreatures(Party1, InArea->GetCombatPositionsForParty1());
 
 	/* According to errata rules, old initiative roll was removed, now Player Party starts combat unless there is at least one Villain present */
 	bPlayerTurn = true;
@@ -31,6 +45,16 @@ void UFabulaCombatSubsystem::StartCombat(AFabulaParty* InParty0, AFabulaParty* I
 	InPlayerController->Possess(InCameraPawn);
 
 	StartRound();
+}
+
+void UFabulaCombatSubsystem::PositionCreatures(AFabulaParty* InParty, TArray<USceneComponent*> InPositions)
+{
+	TArray<UFabulaAbilitySystemComponent*> Creatures = InParty->GetAllCreatures();
+
+	for (int i = 0; i < InPositions.Num() && i < Creatures.Num(); ++i)
+	{
+		Creatures[i]->GetAvatarActor()->SetActorTransform(InPositions[i]->GetComponentTransform());
+	}
 }
 
 void UFabulaCombatSubsystem::StartRound()

@@ -15,10 +15,15 @@ void AFabulaParty::BeginPlay()
 		if (Actor)
 		{
 			UFabulaAbilitySystemComponent* Creature = Actor->GetAbilitySystemComponent();
-			Creature->SetParty(this);
-			Creatures.Add(Creature);
+			AddCreature(Creature);
 		}
 	}
+}
+
+void AFabulaParty::AddCreature(UFabulaAbilitySystemComponent* InCreature)
+{
+	InCreature->SetParty(this);
+	Creatures.Add(InCreature);
 }
 
 TArray<UFabulaAbilitySystemComponent*> AFabulaParty::GetAllCreatures()

@@ -27,6 +27,10 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	/* Temporary function */
+	UFUNCTION(BlueprintCallable)
+	void AddCreature(UFabulaAbilitySystemComponent* InCreature);
+
 	TArray<UFabulaAbilitySystemComponent*> GetAllCreatures();
 
 	bool Contains(UFabulaAbilitySystemComponent* InObj);
