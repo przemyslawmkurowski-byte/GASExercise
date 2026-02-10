@@ -29,8 +29,10 @@ public:
 	AFabulaParty* GetParty();
 
 	UPROPERTY(BlueprintAssignable)
-	FOnRoundStarted OnRoundStarted;
+	FOnRoundStarted OnCombatStarted;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnRoundStarted OnRoundStarted;
 
 private:
 	/* Because basic params are GameplayEffect in GAS, it seems */

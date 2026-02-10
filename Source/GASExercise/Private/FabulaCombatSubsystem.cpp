@@ -44,6 +44,11 @@ void UFabulaCombatSubsystem::StartCombat(AFabulaCombatArea* InArea, AFabulaParty
 	InPlayerController->UnPossess();
 	InPlayerController->Possess(InCameraPawn);
 
+	for (auto Creature : Party0->GetAllCreatures())
+		Creature->OnCombatStarted.Broadcast();
+	for (auto Creature : Party1->GetAllCreatures())
+		Creature->OnCombatStarted.Broadcast();
+
 	StartRound();
 }
 
