@@ -31,6 +31,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddCreature(UFabulaAbilitySystemComponent* InCreature);
 
+	UFUNCTION(BlueprintPure)
 	TArray<UFabulaAbilitySystemComponent*> GetAllCreatures();
 
 	bool Contains(UFabulaAbilitySystemComponent* InObj);

@@ -28,6 +28,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	AFabulaParty* GetParty();
 
+	UFUNCTION(BlueprintPure)
+	FText GetDisplayName() { return DisplayName; }
+
 	UPROPERTY(BlueprintAssignable)
 	FOnRoundStarted OnCombatStarted;
 
@@ -35,6 +38,9 @@ public:
 	FOnRoundStarted OnRoundStarted;
 
 private:
+	UPROPERTY(EditAnywhere)
+	FText DisplayName;
+
 	/* Because basic params are GameplayEffect in GAS, it seems */
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UGameplayEffect> InitData;
