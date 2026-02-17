@@ -33,10 +33,7 @@ struct FTargetingParams
 	UFabulaAbilitySystemComponent* Source = nullptr;
 	
 	UPROPERTY(BlueprintReadWrite)
-	ETargetType PreferredTargets = ETargetType::ETT_Enemy;
-	
-	UPROPERTY(BlueprintReadWrite)
-	ETargetType AllowedTargets = ETargetType::ETT_Any;
+	ETargetType PrimaryTargets = ETargetType::ETT_Enemy;
 	
 	UPROPERTY(BlueprintReadWrite)
 	int MaxNumberOfTargets = 1;

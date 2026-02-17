@@ -21,7 +21,7 @@ void UAbilityTask_FabulaTargetting::Activate()
 {
 	// TODO: actually implement communication with CombatSystem, demand targetting etc
 	UFabulaCombatSubsystem* CombatSystem = GetWorld()->GetSubsystem<UFabulaCombatSubsystem>();
-	TArray<UFabulaAbilitySystemComponent*> Targets = UFabulaHelperLibrary::GetAvailableTargets(CombatSystem, Params.Source, Params.AllowedTargets, bAllowTargettingDeadCreatures);
+	TArray<UFabulaAbilitySystemComponent*> Targets = UFabulaHelperLibrary::GetAvailableTargets(CombatSystem, Params.Source, Params.PrimaryTargets, bAllowTargettingDeadCreatures);
 
 	// CombatSystem->GetAllAvailableTargets(Params.Source);
 	TScriptInterface<ICombatController> SourceController = nullptr;

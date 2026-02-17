@@ -23,6 +23,7 @@ public:
 
 	void SetParty(AFabulaParty* InParty);
 
+	UFUNCTION(BlueprintPure)
 	bool HasTurns();
 
 	UFUNCTION(BlueprintPure)
