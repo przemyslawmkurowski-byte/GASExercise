@@ -19,7 +19,8 @@ class GASEXERCISE_API UFabulaCombatSubsystem : public UWorldSubsystem
 	
 public:
 	UFUNCTION(BlueprintCallable)
-	void StartCombat(AFabulaCombatArea* InArea, AFabulaParty* InParty0, AFabulaParty* InParty1, APlayerController* PlayerController, AActor* InEnemyController, APawn* CameraPawn);
+	void StartCombat(AFabulaCombatArea* InArea, AFabulaParty* InParty0, AFabulaParty* InParty1, APlayerController* InPlayerController, 
+		TScriptInterface<ICombatController> InPlayerCombatController, AActor* InEnemyController, APawn* InCameraPawn);
 
 	UFUNCTION(BlueprintCallable)
 	void EndTurn();
@@ -43,7 +44,7 @@ public:
 private:
 	void StartRound();
 
-	AActor* GetCurrentPlayer();
+	UObject* GetCurrentPlayer();
 	bool HasAnyCreatureAvailableForActivation(TScriptInterface<ICombatController> OwningController);
 
 	void PositionCreatures(AFabulaParty* InParty, TArray<USceneComponent*> InPositions);
@@ -51,23 +52,26 @@ private:
 
 	/* for now - player party */
 	UPROPERTY()
-	AFabulaParty* Party0;
+	TObjectPtr<AFabulaParty> Party0;
 	
 	/* for now - enemies */
 	UPROPERTY()
-	AFabulaParty* Party1;
+	TObjectPtr<AFabulaParty> Party1;
 
 	UPROPERTY()
-	AActor* EnemyController;
+	TObjectPtr<AActor> EnemyController;
 
 	UPROPERTY()
-	AActor* PlayerController;
+	TObjectPtr<AActor> PlayerController;
+
+	UPROPERTY()
+	TObjectPtr<UObject> PlayerCombatController;
 
 	// control params
 	bool bPlayerTurn;
 	
 	// we depend on old PlayerCharacter not being destroyed during combat.
 	UPROPERTY()
-	APawn* PreviousPlayerPawn;
+	TObjectPtr<APawn> PreviousPlayerPawn;
 
 };

@@ -9,7 +9,8 @@
 #include "CombatController.h"
 
 void UFabulaCombatSubsystem::StartCombat(AFabulaCombatArea* InArea, AFabulaParty* InParty0, AFabulaParty* InParty1,
-                                   APlayerController* InPlayerController, AActor* InEnemyController, APawn* InCameraPawn)
+                                   APlayerController* InPlayerController, TScriptInterface<ICombatController> InPlayerCombatController,
+	AActor* InEnemyController, APawn* InCameraPawn)
 {
 	if (InParty0 == nullptr || InParty1 == nullptr)
 	{
@@ -24,6 +25,7 @@ void UFabulaCombatSubsystem::StartCombat(AFabulaCombatArea* InArea, AFabulaParty
 	Party1 = InParty1;
 	
 	PlayerController = InPlayerController;
+	PlayerCombatController = InPlayerCombatController.GetObject();
 
 	EnemyController = InEnemyController;
 
@@ -69,7 +71,7 @@ void UFabulaCombatSubsystem::StartRound()
 	for (auto Creature : Party1->GetAllCreatures())
 		Creature->OnRoundStarted.Broadcast();
 	bPlayerTurn = true;
-	ICombatController::Execute_StartTurn(PlayerController);
+	ICombatController::Execute_StartTurn(PlayerCombatController);
 }
 
 
@@ -78,7 +80,7 @@ void UFabulaCombatSubsystem::EndTurn()
 	// inform controller that its turn has succesfully ended
 	if (bPlayerTurn)
 	{
-		ICombatController::Execute_EndTurn(PlayerController);
+		ICombatController::Execute_EndTurn(PlayerCombatController);
 	}
 	else
 	{
@@ -89,7 +91,7 @@ void UFabulaCombatSubsystem::EndTurn()
 	bPlayerTurn = !bPlayerTurn;
 
 	// give turn to new current player, if they have any activable creature
-	AActor* CurrentPlayer = GetCurrentPlayer();
+	UObject* CurrentPlayer = GetCurrentPlayer();
 	if (HasAnyCreatureAvailableForActivation(CurrentPlayer))
 	{
 		ICombatController::Execute_StartTurn(CurrentPlayer);
@@ -107,16 +109,16 @@ void UFabulaCombatSubsystem::EndTurn()
 	StartRound();
 }
 
-AActor* UFabulaCombatSubsystem::GetCurrentPlayer()
+UObject* UFabulaCombatSubsystem::GetCurrentPlayer()
 {
-	return bPlayerTurn ? PlayerController : EnemyController;
+	return bPlayerTurn ? PlayerCombatController : EnemyController;
 }
 
 void UFabulaCombatSubsystem::GetControllerFromComponent(TScriptInterface<ICombatController>& CombatController, UFabulaAbilitySystemComponent* Who)
 {
 	if (Party0->Contains(Who))
 	{
-		CombatController.SetObject(PlayerController);
+		CombatController.SetObject(PlayerCombatController);
 	}
 	else if (Party1->Contains(Who))
 	{
