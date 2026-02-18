@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "FabulaAbilitySystemComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FFabulaGenericEvent);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnRoundStarted);
 
 class AFabulaParty;
@@ -37,6 +38,13 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnRoundStarted OnRoundStarted;
+
+	/* UX interface */
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FFabulaGenericEvent OnTargettingModeActivated;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FFabulaGenericEvent OnTargettingModeDeactivated;
 
 private:
 	UPROPERTY(EditAnywhere)

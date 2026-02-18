@@ -8,6 +8,8 @@
 #include "FabulaParty.h"
 #include "CombatController.h"
 
+DEFINE_LOG_CATEGORY(LogFabula);
+
 void UFabulaCombatSubsystem::StartCombat(AFabulaCombatArea* InArea, AFabulaParty* InParty0, AFabulaParty* InParty1,
                                    APlayerController* InPlayerController, TScriptInterface<ICombatController> InPlayerCombatController,
 	AActor* InEnemyController, APawn* InCameraPawn)
@@ -66,6 +68,8 @@ void UFabulaCombatSubsystem::PositionCreatures(AFabulaParty* InParty, TArray<USc
 
 void UFabulaCombatSubsystem::StartRound()
 {
+	UE_LOG(LogFabula, Display, TEXT("Next round"));
+
 	for (auto Creature : Party0->GetAllCreatures())
 		Creature->OnRoundStarted.Broadcast();
 	for (auto Creature : Party1->GetAllCreatures())
@@ -94,6 +98,7 @@ void UFabulaCombatSubsystem::EndTurn()
 	UObject* CurrentPlayer = GetCurrentPlayer();
 	if (HasAnyCreatureAvailableForActivation(CurrentPlayer))
 	{
+		UE_LOG(LogFabula, Display, TEXT("Other player turn"));
 		ICombatController::Execute_StartTurn(CurrentPlayer);
 		return;
 	}
@@ -102,9 +107,11 @@ void UFabulaCombatSubsystem::EndTurn()
 	CurrentPlayer = GetCurrentPlayer();
 	if (HasAnyCreatureAvailableForActivation(CurrentPlayer))
 	{
+		UE_LOG(LogFabula, Display, TEXT("No available creatures, same player turn"));
 		ICombatController::Execute_StartTurn(CurrentPlayer);
 		return;
 	}
+	UE_LOG(LogFabula, Display, TEXT("No more creatures, finishing turn"));
 	// if all Creatures already moved, start nex round
 	StartRound();
 }
@@ -132,7 +139,7 @@ void UFabulaCombatSubsystem::GetControllerFromComponent(TScriptInterface<ICombat
 
 TArray<UFabulaAbilitySystemComponent*> UFabulaCombatSubsystem::GetCreaturesAvailableForActivation(TScriptInterface<ICombatController> OwningController)
 {
-	TWeakObjectPtr<AFabulaParty> Working = OwningController == PlayerController ? Party0 : Party1;
+	TWeakObjectPtr<AFabulaParty> Working = OwningController == PlayerCombatController ? Party0 : Party1;
 	return Working.Get()->GetAllCreaturesWithAtLeastOneTurn();
 }
 

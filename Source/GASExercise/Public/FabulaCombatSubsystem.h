@@ -6,6 +6,8 @@
 #include "Subsystems/WorldSubsystem.h"
 #include "FabulaCombatSubsystem.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogFabula, Display, All);
+
 class AFabulaCombatArea;
 class ICombatController;
 class UFabulaAbilitySystemComponent;
