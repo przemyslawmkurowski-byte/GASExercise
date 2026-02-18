@@ -24,6 +24,8 @@ public:
 	void StartCombat(AFabulaCombatArea* InArea, AFabulaParty* InParty0, AFabulaParty* InParty1, APlayerController* InPlayerController, 
 		TScriptInterface<ICombatController> InPlayerCombatController, AActor* InEnemyController, APawn* InCameraPawn);
 
+	void EndCombat();
+
 	UFUNCTION(BlueprintCallable)
 	void EndTurn();
 
@@ -46,6 +48,8 @@ public:
 private:
 	void StartRound();
 
+	bool ShouldEndCombat();
+
 	UObject* GetCurrentPlayer();
 	bool HasAnyCreatureAvailableForActivation(TScriptInterface<ICombatController> OwningController);
 
@@ -64,7 +68,7 @@ private:
 	TObjectPtr<AActor> EnemyController;
 
 	UPROPERTY()
-	TObjectPtr<AActor> PlayerController;
+	TObjectPtr<APlayerController> PlayerController;
 
 	UPROPERTY()
 	TObjectPtr<UObject> PlayerCombatController;

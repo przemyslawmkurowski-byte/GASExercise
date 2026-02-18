@@ -56,6 +56,17 @@ void UFabulaCombatSubsystem::StartCombat(AFabulaCombatArea* InArea, AFabulaParty
 	StartRound();
 }
 
+void UFabulaCombatSubsystem::EndCombat()
+{
+	PlayerController->UnPossess();
+	PlayerController->Possess(PreviousPlayerPawn);
+
+
+	//PreviousPlayerPawn = InPlayerController->GetPawnOrSpectator();
+	//InPlayerController->UnPossess();
+	//InPlayerController->Possess(InCameraPawn);
+}
+
 void UFabulaCombatSubsystem::PositionCreatures(AFabulaParty* InParty, TArray<USceneComponent*> InPositions)
 {
 	TArray<UFabulaAbilitySystemComponent*> Creatures = InParty->GetAllCreatures();
@@ -91,6 +102,12 @@ void UFabulaCombatSubsystem::EndTurn()
 		ICombatController::Execute_EndTurn(EnemyController);
 	}
 
+	if (ShouldEndCombat())
+	{
+		EndCombat();
+		return;
+	}
+
 	/// swap current player
 	bPlayerTurn = !bPlayerTurn;
 
@@ -114,6 +131,36 @@ void UFabulaCombatSubsystem::EndTurn()
 	UE_LOG(LogFabula, Display, TEXT("No more creatures, finishing turn"));
 	// if all Creatures already moved, start nex round
 	StartRound();
+}
+
+bool UFabulaCombatSubsystem::ShouldEndCombat()
+{
+	/* TODO: move check if any in Party is alive to Party */
+	bool IsAnyP0Alive = false;
+	bool IsAnyP1Alive = false;
+
+	for (auto Creature : Party0->GetAllCreatures())
+	{
+		if (!Creature->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Fabula.Status.Dead"))))
+		{
+			IsAnyP0Alive = true;
+			break;
+		}
+	}
+
+	for (auto Creature : Party1->GetAllCreatures())
+	{
+		if (!Creature->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Fabula.Status.Dead"))))
+		{
+			IsAnyP1Alive = true;
+			break;
+		}
+	}
+	/*
+		return A & !B | !A & B ==> A != B; 
+	*/
+
+	return IsAnyP0Alive != IsAnyP1Alive;
 }
 
 UObject* UFabulaCombatSubsystem::GetCurrentPlayer()
