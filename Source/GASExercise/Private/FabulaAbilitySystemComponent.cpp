@@ -35,3 +35,21 @@ AFabulaParty* UFabulaAbilitySystemComponent::GetParty()
 {
 	return Party;
 }
+
+void UFabulaAbilitySystemComponent::SetGuardEffectHandlers(const FActiveGameplayEffectHandle& InSelfEffect, const FActiveGameplayEffectHandle& InTargetEffect)
+{
+	GuardEffectSelf = InSelfEffect;
+	TargetEffectSelf = InTargetEffect;
+}
+
+void UFabulaAbilitySystemComponent::ActivateCreature()
+{
+	RemoveActiveGameplayEffect(GuardEffectSelf);
+	if (TargetEffectSelf.IsValid())
+	{
+		auto Target = TargetEffectSelf.GetOwningAbilitySystemComponent();
+		if (Target != nullptr)
+			Target->RemoveActiveGameplayEffect(TargetEffectSelf);
+	}
+
+}

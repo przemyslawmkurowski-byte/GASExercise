@@ -46,7 +46,22 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FFabulaGenericEvent OnTargettingModeDeactivated;
 
+	UFUNCTION(BlueprintCallable)
+	void SetGuardEffectHandlers(const FActiveGameplayEffectHandle& InSelfEffect, const FActiveGameplayEffectHandle& InTargetEffect);
+
+	// called after CommitAbility, but before anything else. Dirty hack.
+	UFUNCTION(BlueprintCallable)
+	void ActivateCreature();
+
 private:
+	// guard block
+	UPROPERTY()
+	FActiveGameplayEffectHandle GuardEffectSelf;
+
+	UPROPERTY()
+	FActiveGameplayEffectHandle TargetEffectSelf;
+
+
 	UPROPERTY(EditAnywhere)
 	FText DisplayName;
 
