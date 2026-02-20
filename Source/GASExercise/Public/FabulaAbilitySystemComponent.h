@@ -28,6 +28,9 @@ public:
 	bool HasTurns();
 
 	UFUNCTION(BlueprintPure)
+	bool IsAlive();
+
+	UFUNCTION(BlueprintPure)
 	AFabulaParty* GetParty();
 
 	UFUNCTION(BlueprintPure)

@@ -26,6 +26,11 @@ bool UFabulaAbilitySystemComponent::HasTurns()
 	return Attributes->GetTurns() > 0;
 }
 
+bool UFabulaAbilitySystemComponent::IsAlive()
+{
+	return !HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Fabula.Status.Dead")));
+}
+
 void UFabulaAbilitySystemComponent::SetParty(AFabulaParty* InParty)
 {
 	Party = InParty;

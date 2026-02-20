@@ -5,6 +5,7 @@
 #include "FabulaParty.h"
 
 #include "FabulaCharacter.h"
+#include "FabulaPartyIteratorLibrary.h"
 
 void AFabulaParty::BeginPlay()
 {
@@ -20,13 +21,19 @@ void AFabulaParty::BeginPlay()
 	}
 }
 
+FFabulaPartyIterator AFabulaParty::GetIterator(FFabulaPartyIteratorPolicy InPolicies)
+{
+	FFabulaPartyIterator Ret(this, InPolicies);
+	return Ret;
+}
+
 void AFabulaParty::AddCreature(UFabulaAbilitySystemComponent* InCreature)
 {
 	InCreature->SetParty(this);
 	Creatures.Add(InCreature);
 }
 
-TArray<UFabulaAbilitySystemComponent*> AFabulaParty::GetAllCreatures()
+TArray<UFabulaAbilitySystemComponent*>& AFabulaParty::GetAllCreatures()
 {
 	return Creatures;
 }

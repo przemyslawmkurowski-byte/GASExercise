@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "FabulaParty.generated.h"
 
+struct FFabulaPartyIteratorPolicy;
+
 class AFabulaCharacter;
 class UFabulaAbilitySystemComponent;
 
@@ -18,6 +20,8 @@ class GASEXERCISE_API AFabulaParty : public AActor
 {
 	GENERATED_BODY()
 
+	friend struct FFabulaPartyIterator;
+
 public:
 	// Sets default values for this character's properties
 	//AFabulaParty();
@@ -27,12 +31,15 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	UFUNCTION(BlueprintCallable)
+	FFabulaPartyIterator GetIterator(FFabulaPartyIteratorPolicy InPolicies);
+
 	/* Temporary function */
 	UFUNCTION(BlueprintCallable)
 	void AddCreature(UFabulaAbilitySystemComponent* InCreature);
 
 	UFUNCTION(BlueprintPure)
-	TArray<UFabulaAbilitySystemComponent*> GetAllCreatures();
+	TArray<UFabulaAbilitySystemComponent*>& GetAllCreatures();
 
 	bool Contains(UFabulaAbilitySystemComponent* InObj);
 	TArray<UFabulaAbilitySystemComponent*> GetAllCreaturesWithAtLeastOneTurn();
