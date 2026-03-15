@@ -44,10 +44,10 @@ public:
 
 	/* UX interface */
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
-	FFabulaGenericEvent OnTargettingModeActivated;
+	FFabulaGenericEvent StartShoulderMountedCamera;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
-	FFabulaGenericEvent OnTargettingModeDeactivated;
+	FFabulaGenericEvent StopShoulderMountedCamera;
 
 	UFUNCTION(BlueprintCallable)
 	void SetGuardEffectHandlers(const FActiveGameplayEffectHandle& InSelfEffect, const FActiveGameplayEffectHandle& InTargetEffect);
