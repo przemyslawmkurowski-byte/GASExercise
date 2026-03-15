@@ -46,7 +46,7 @@ UFabulaAbilitySystemComponent* FFabulaPartyIterator::Next()
 			else
 			{
 				CurrentIndex = Length - 1;
-				StartIndex = CurrentIndex;
+				StartIndex = Length;// HACK! to force loop stop next iteration
 			}
 		}
 
@@ -80,7 +80,7 @@ UFabulaAbilitySystemComponent* FFabulaPartyIterator::Prev()
 			else
 			{
 				CurrentIndex = 0;
-				StartIndex = CurrentIndex;
+				StartIndex = -1;// HACK! to force loop stop next iteration
 			}
 		}
 
@@ -108,6 +108,14 @@ bool FFabulaPartyIterator::ShouldBeSkipped(UFabulaAbilitySystemComponent* InCand
 UFabulaAbilitySystemComponent* UFabulaPartyIteratorLibrary::TryGetCurrent(UPARAM(ref) FFabulaPartyIterator& InIterator)
 {
 	return InIterator.TryGetCurrent();
+}
+
+TArray<UFabulaAbilitySystemComponent*> UFabulaPartyIteratorLibrary::TryGetCurrentAsArray(UPARAM(ref) FFabulaPartyIterator& InIterator)
+{
+	UFabulaAbilitySystemComponent* Current = InIterator.TryGetCurrent();
+	return Current != nullptr 
+		? TArray<UFabulaAbilitySystemComponent*>({ Current }) 
+		: TArray< UFabulaAbilitySystemComponent*>();
 }
 
 UFabulaAbilitySystemComponent* UFabulaPartyIteratorLibrary::Next(UPARAM(ref) FFabulaPartyIterator& InIterator)

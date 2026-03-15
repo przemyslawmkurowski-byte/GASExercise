@@ -71,6 +71,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	static UFabulaAbilitySystemComponent* TryGetCurrent(UPARAM(ref) FFabulaPartyIterator& InIterator);
 
+	// Shortcut.
+	UFUNCTION(BlueprintCallable)
+	static TArray<UFabulaAbilitySystemComponent*> TryGetCurrentAsArray(UPARAM(ref) FFabulaPartyIterator& InIterator);
+
 	UFUNCTION(BlueprintCallable)
 	static UFabulaAbilitySystemComponent* Next(UPARAM(ref) FFabulaPartyIterator& InIterator);
 
