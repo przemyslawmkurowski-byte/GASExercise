@@ -56,5 +56,15 @@ void UFabulaAbilitySystemComponent::ActivateCreature()
 		if (Target != nullptr)
 			Target->RemoveActiveGameplayEffect(TargetEffectSelf);
 	}
+}
 
+void UFabulaAbilitySystemComponent::HandleDeath()
+{
+	RemoveActiveGameplayEffect(GuardEffectSelf);
+	if (TargetEffectSelf.IsValid())
+	{
+		auto Target = TargetEffectSelf.GetOwningAbilitySystemComponent();
+		if (Target != nullptr)
+			Target->RemoveActiveGameplayEffect(TargetEffectSelf);
+	}
 }

@@ -13,7 +13,7 @@
 		GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 		GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttributeChangedEvent, UAttributeSet*, AttributeSet, float, OldValue, float, NewValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttributeChangedEvent, UFabulaAttributeSet*, AttributeSet, float, OldValue, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FHPReachedZeroEvent);
 
 /**

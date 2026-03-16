@@ -56,6 +56,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ActivateCreature();
 
+	UFUNCTION(BlueprintCallable)
+	void HandleDeath();
+
 private:
 	// guard block
 	UPROPERTY()
