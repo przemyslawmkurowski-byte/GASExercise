@@ -8,7 +8,6 @@
 #include "FabulaAttributeSet.h"
 #include "CreatureCardWidget.generated.h"
 
-
 /**
  * Code-side interface for communication between FabulaAttributeSet/FabulaAbilitySystemComponent, and in-game widget. Used to free blueprint from binding itself to events
  */
@@ -24,6 +23,9 @@ public:
 protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void RefreshHP(UFabulaAttributeSet* InAttributeSet, float InOldValue, float InNewValue);
+	
+	UFUNCTION(BlueprintImplementableEvent)
+    void RefreshIP(UFabulaAttributeSet* InAttributeSet, float InOldValue, float InNewValue);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void RefreshTurns(UFabulaAttributeSet* InAttributeSet, float InOldValue, float InNewValue);
@@ -36,6 +38,4 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	UFabulaAttributeSet* CachedAttributeSet;
-
-	
 };

@@ -9,6 +9,9 @@ UFabulaAttributeSet::UFabulaAttributeSet()
 	InitLevel(5);
 	InitHP(70);
 	InitMaxHP(70);
+	
+	InitIP(6);
+	InitMaxIP(6);
 	InitTurnsPerRound(1);
 
 	InitDexterityDice(8);
@@ -49,6 +52,10 @@ void UFabulaAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribut
 	else if (Attribute == GetTurnsAttribute())
 	{
 		OnTurnsChanged.Broadcast(this, OldValue, NewValue);
+	}
+	else if (Attribute == GetIPAttribute())
+	{
+		OnIPChanged.Broadcast(this, OldValue, NewValue);
 	}
 }
 

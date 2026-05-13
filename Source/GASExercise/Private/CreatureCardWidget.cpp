@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "CreatureCardWidget.h"
 
 void UCreatureCardWidget::BindToCreature(UFabulaAbilitySystemComponent* InComp, UFabulaAttributeSet* InAttributes)
 {
 	InAttributes->OnHPChanged.AddDynamic(this, &UCreatureCardWidget::RefreshHP);
+	InAttributes->OnIPChanged.AddDynamic(this, &UCreatureCardWidget::RefreshIP);
 	InAttributes->OnTurnsChanged.AddDynamic(this, &UCreatureCardWidget::RefreshTurns);
 
 	FGameplayTag Protected = FGameplayTag::RequestGameplayTag(FName("Fabula.Status.Protected.Guard"));
@@ -15,6 +15,7 @@ void UCreatureCardWidget::BindToCreature(UFabulaAbilitySystemComponent* InComp, 
 
 	// first refresh
 	RefreshHP(InAttributes, InAttributes->GetHP(), InAttributes->GetHP());
+	RefreshIP(InAttributes, InAttributes->GetIP(), InAttributes->GetIP());
 	RefreshTurns(InAttributes, InAttributes->GetTurns(), InAttributes->GetTurns());
 	OnProtectionStatusChanged(Protected, InComp->GetTagCount(Protected));
 		//InAttributes->GetHP(), InAttributes->GetHP());

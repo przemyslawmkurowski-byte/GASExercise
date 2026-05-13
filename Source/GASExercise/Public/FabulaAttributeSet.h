@@ -45,6 +45,9 @@ public:
 
 	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, HP);
 	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, MaxHP);
+	
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, IP);
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, MaxIP);
 
 	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, DamageReduction);
 
@@ -57,6 +60,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FAttributeChangedEvent OnHPChanged;
+	
+	UPROPERTY(BlueprintAssignable)
+	FAttributeChangedEvent OnIPChanged;
 
 	UPROPERTY(BlueprintAssignable)
 	FAttributeChangedEvent OnTurnsChanged;
@@ -100,11 +106,18 @@ protected:
 	FGameplayAttributeData WillpowerDice;
 
 	/* Health points. How much damage it takes to knoch off Creature */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (HideFromModifiers))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)//, meta = (HideFromModifiers))
 	FGameplayAttributeData HP;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayAttributeData MaxHP;
+	
+	/* Inventory points. Used for elixirs, mixtures etc. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayAttributeData IP;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayAttributeData MaxIP;
 
 	/* Flat value taken from Damage before Affinities are calculated. Affinities are Tags. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
