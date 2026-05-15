@@ -6,19 +6,22 @@
 
 UFabulaAttributeSet::UFabulaAttributeSet()
 {
-	InitLevel(5);
-	InitHP(70);
-	InitMaxHP(70);
-	
-	InitIP(6);
-	InitMaxIP(6);
-	InitTurnsPerRound(1);
-
 	InitDexterityDice(8);
 	InitInsightDice(8);
 	InitMightDice(8);
 	InitWillpowerDice(8);
-
+	
+	InitLevel(5);
+	
+	InitHP(70);
+	InitMaxHP(70);
+	InitMP(45);
+	InitMaxMP(45);
+	InitIP(6);
+	InitMaxIP(6);
+	
+	InitTurnsPerRound(1);
+	
 	InitDamageReduction(0);
 	InitPrimaryWeaponDamage(8);
 }
@@ -28,6 +31,10 @@ void UFabulaAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute
 	if (Attribute == GetHPAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHP());
+	}
+	else if (Attribute == GetMPAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxMP());
 	}
 
 	Super::PreAttributeChange(Attribute, NewValue);
@@ -52,6 +59,10 @@ void UFabulaAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribut
 	else if (Attribute == GetTurnsAttribute())
 	{
 		OnTurnsChanged.Broadcast(this, OldValue, NewValue);
+	}
+	else if (Attribute == GetMPAttribute())
+	{
+		OnMPChanged.Broadcast(this, OldValue, NewValue);
 	}
 	else if (Attribute == GetIPAttribute())
 	{

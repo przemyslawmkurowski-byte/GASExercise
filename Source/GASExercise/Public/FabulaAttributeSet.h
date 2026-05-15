@@ -46,6 +46,9 @@ public:
 	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, HP);
 	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, MaxHP);
 	
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, MP);
+    ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, MaxMP);
+	
 	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, IP);
 	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, MaxIP);
 
@@ -57,9 +60,17 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	FGameplayAttributeData Damage;
 	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, Damage);
+	
+	// Meta attribute, because I had no damn idea how to multipy cost by num of targets
+	UPROPERTY(VisibleAnywhere)
+	FGameplayAttributeData MetaNumOfTargets;
+	ATTRIBUTE_ACCESSORS(UFabulaAttributeSet, MetaNumOfTargets);
 
 	UPROPERTY(BlueprintAssignable)
 	FAttributeChangedEvent OnHPChanged;
+	
+	UPROPERTY(BlueprintAssignable)
+	FAttributeChangedEvent OnMPChanged;
 	
 	UPROPERTY(BlueprintAssignable)
 	FAttributeChangedEvent OnIPChanged;
@@ -112,6 +123,13 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayAttributeData MaxHP;
 	
+	/* Mana(magic?) points. Used for Spells and some Skills */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)//, meta = (HideFromModifiers))
+    FGameplayAttributeData MP;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    FGameplayAttributeData MaxMP;
+	
 	/* Inventory points. Used for elixirs, mixtures etc. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayAttributeData IP;
@@ -126,24 +144,5 @@ protected:
 	/* In Fabula Ultima, damage dealt is High Roll + flat value coming from weapon */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayAttributeData PrimaryWeaponDamage;
-
-	/* Magic points. Used to cast spells and use some paramagic abilities. /
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FGameplayAttributeData MP;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FGameplayAttributeData MaxMP;
-
-	/ Equipment points. Used for Equpment action. /
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FGameplayAttributeData EP;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FGameplayAttributeData MaxEP;*/
-
-
-
-
-
 	
 };

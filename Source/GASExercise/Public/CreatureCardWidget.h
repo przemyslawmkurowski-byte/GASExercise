@@ -25,6 +25,9 @@ protected:
 	void RefreshHP(UFabulaAttributeSet* InAttributeSet, float InOldValue, float InNewValue);
 	
 	UFUNCTION(BlueprintImplementableEvent)
+	void RefreshMP(UFabulaAttributeSet* InAttributeSet, float InOldValue, float InNewValue);
+	
+	UFUNCTION(BlueprintImplementableEvent)
     void RefreshIP(UFabulaAttributeSet* InAttributeSet, float InOldValue, float InNewValue);
 
 	UFUNCTION(BlueprintImplementableEvent)
